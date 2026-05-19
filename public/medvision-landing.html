@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MedVision AI — Your Health, Understood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F7F6F2;
+  --ink: #0E110D;
+  --ink2: #2C2F2B;
+  --muted: #6E7168;
+  --subtle: #A8AC9E;
+  --line: rgba(14,17,13,.1);
+  --teal: #1A7F6E;
+  --teal-l: #EAF5F2;
+  --teal-d: #0F5A4D;
+  --cream: #FBF9F5;
+  --white: #FFFFFF;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Epilogue', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 64px;
+  background: rgba(247,246,242,0.82);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  transition: background .3s;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Fraunces', serif;
+  font-size: 17px; font-weight: 400; letter-spacing: -.01em;
+  color: var(--ink);
+}
+.nav-logo-mark {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, #2563EB, #0D9488);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  box-shadow: 0 4px 14px rgba(37,99,235,.35);
+}
+.nav-links { display: flex; gap: 36px; }
+.nav-links a { font-size: 13.5px; font-weight: 400; color: var(--muted); transition: color .2s; letter-spacing: .01em; }
+.nav-links a:hover { color: var(--ink); }
+.nav-signin {
+  font-size: 13.5px; font-weight: 500; color: var(--teal);
+  padding: 8px 22px; border: 1.5px solid var(--teal);
+  border-radius: 99px;
+  transition: background .2s, color .2s;
+}
+.nav-signin:hover { background: var(--teal); color: #fff; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 56px 80px;
+  position: relative; overflow: hidden;
+}
+.hero-bg-line {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: 1px; background: var(--line);
+  left: 56%; pointer-events: none;
+}
+.hero-inner {
+  max-width: 1140px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 32px;
+}
+.hero-tag-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal); animation: blink 2.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 62px; font-weight: 300; line-height: 1.02;
+  letter-spacing: -.03em; color: var(--ink);
+  margin-bottom: 24px;
+}
+.hero h1 em {
+  font-style: italic; color: var(--teal);
+}
+.hero-sub {
+  font-size: 16px; color: var(--muted); line-height: 1.8;
+  max-width: 400px; margin-bottom: 44px; font-weight: 300;
+}
+.hero-actions { display: flex; gap: 12px; align-items: center; }
+.btn-main {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 14px 30px; border-radius: 99px;
+  background: var(--ink); color: var(--bg);
+  font-size: 14px; font-weight: 500; letter-spacing: .01em;
+  transition: background .2s, transform .15s;
+}
+.btn-main:hover { background: var(--teal); transform: translateY(-1px); }
+.btn-ghost {
+  font-size: 14px; color: var(--muted); font-weight: 400;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: color .2s;
+}
+.btn-ghost:hover { color: var(--ink); }
+.btn-ghost svg { transition: transform .2s; }
+.btn-ghost:hover svg { transform: translateX(3px); }
+
+/* ── HEALTH CARD ── */
+.hero-card-wrap {
+  display: flex; justify-content: center;
+  animation: float 7s ease-in-out infinite;
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.hcard {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 24px; padding: 28px; width: 100%; max-width: 360px;
+  box-shadow: 0 24px 64px rgba(14,17,13,.08);
+}
+.hcard-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px;
+}
+.hcard-patient { display: flex; align-items: center; gap: 10px; }
+.hcard-av {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--teal-l); color: var(--teal-d);
+  font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+}
+.hcard-name { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.2; }
+.hcard-id { font-size: 11px; color: var(--subtle); margin-top: 1px; }
+.hcard-risk {
+  font-size: 11px; font-weight: 500; letter-spacing: .03em;
+  padding: 5px 12px; border-radius: 99px;
+  background: #D1FAE5; color: #065F46;
+}
+
+/* Score ring */
+.hcard-score {
+  background: var(--bg); border-radius: 16px; padding: 18px 20px;
+  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+}
+.ring-wrap { position: relative; width: 58px; height: 58px; flex-shrink: 0; }
+.ring-wrap svg { transform: rotate(-90deg); }
+.ring-text {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400;
+  color: var(--teal);
+}
+.hcard-score-info {}
+.hcard-score-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .06em; }
+.hcard-score-val { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 300; color: var(--ink); }
+.hcard-score-sub { font-size: 11.5px; color: var(--teal); margin-top: 1px; }
+
+/* Factor pills */
+.hcard-factors {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;
+}
+.hcard-f {
+  background: var(--bg); border-radius: 10px; padding: 10px 12px;
+  border: 1px solid var(--line);
+}
+.hcard-f-name { font-size: 10.5px; color: var(--muted); margin-bottom: 2px; }
+.hcard-f-val { font-size: 12.5px; font-weight: 500; color: var(--ink); }
+
+/* Next appt */
+.hcard-appt {
+  display: flex; align-items: center; gap: 11px;
+  background: #FFF8F0; border-radius: 12px; padding: 11px 14px;
+}
+.hcard-appt-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #F97316; flex-shrink: 0;
+}
+.hcard-appt-title { font-size: 12.5px; font-weight: 500; color: var(--ink); }
+.hcard-appt-time { font-size: 11px; color: var(--muted); }
+
+/* ── STATS STRIP ── */
+.stats-strip {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.s-item {
+  padding: 36px 0 36px 56px;
+  border-right: 1px solid var(--line);
+}
+.s-item:last-child { border-right: none; }
+.s-num {
+  font-family: 'Fraunces', serif;
+  font-size: 42px; font-weight: 300; color: var(--ink); line-height: 1;
+  margin-bottom: 6px;
+}
+.s-num em { font-style: italic; color: var(--teal); }
+.s-label { font-size: 13px; color: var(--muted); font-weight: 300; }
+
+/* ── SECTION COMMON ── */
+.section {
+  max-width: 1140px; margin: 0 auto;
+  padding: 100px 56px;
+}
+.sec-label {
+  font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+.sec-label::before { content: ''; width: 18px; height: 1px; background: var(--teal); }
+.sec-h {
+  font-family: 'Fraunces', serif;
+  font-size: 44px; font-weight: 300; line-height: 1.1;
+  letter-spacing: -.03em; color: var(--ink); margin-bottom: 14px;
+}
+.sec-h em { font-style: italic; color: var(--teal); }
+.sec-sub { font-size: 16px; color: var(--muted); max-width: 500px; line-height: 1.75; font-weight: 300; }
+
+/* ── HOW IT WORKS ── */
+.how-wrap {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: 20px;
+  overflow: hidden; margin-top: 56px;
+}
+.how-step { background: var(--cream); padding: 40px 36px; }
+.how-n {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 52px; font-weight: 300; color: var(--teal); opacity: .3;
+  line-height: 1; margin-bottom: 20px;
+}
+.how-title { font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+.how-desc { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+
+/* ── FEATURES ── */
+.feat-bg { background: var(--white); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 56px; background: var(--line); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+.feat-cell {
+  background: var(--cream); padding: 36px;
+  transition: background .25s;
+}
+.feat-cell:hover { background: var(--teal-l); }
+.feat-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px; background: var(--white);
+  border: 1px solid var(--line);
+}
+.feat-icon svg { width: 20px; height: 20px; stroke: var(--teal); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.feat-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 9px; }
+.feat-desc { font-size: 13.5px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+
+/* ── TESTIMONIALS ── */
+.testi-bg {
+  background: var(--ink); padding: 100px 56px;
+}
+.testi-inner { max-width: 1140px; margin: 0 auto; }
+.testi-bg .sec-label { color: rgba(255,255,255,.35); }
+.testi-bg .sec-label::before { background: rgba(255,255,255,.35); }
+.testi-bg .sec-h { color: #fff; }
+.testi-bg .sec-h em { color: var(--teal-l); opacity: .8; }
+.t-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 56px; }
+.t-card {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px; padding: 28px;
+  transition: background .2s, border-color .2s;
+}
+.t-card:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); }
+.t-quote { font-family: 'Fraunces', serif; font-style: italic; font-size: 32px; color: var(--teal); opacity: .5; line-height: 1; margin-bottom: 16px; }
+.t-text { font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.75; font-weight: 300; margin-bottom: 20px; }
+.t-author { display: flex; align-items: center; gap: 10px; }
+.t-av {
+  width: 34px; height: 34px; border-radius: 50%;
+  font-size: 11px; font-weight: 500; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.t-name { font-size: 13px; font-weight: 500; color: #fff; }
+.t-role { font-size: 11px; color: rgba(255,255,255,.35); }
+
+/* ── PRIVACY ── */
+.privacy-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center; padding: 100px 56px;
+  max-width: 1140px; margin: 0 auto;
+}
+.pv-card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 20px; overflow: hidden;
+}
+.pv-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 24px; border-bottom: 1px solid var(--line);
+  transition: background .15s;
+}
+.pv-row:last-child { border-bottom: none; }
+.pv-row:hover { background: var(--teal-l); }
+.pv-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--teal); flex-shrink: 0;
+}
+.pv-text { font-size: 13.5px; color: var(--ink2); font-weight: 400; }
+.pv-check { margin-left: auto; font-size: 13px; color: var(--teal); font-weight: 500; }
+.priv-list { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+.priv-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 14.5px; color: var(--muted); line-height: 1.65; font-weight: 300;
+}
+.priv-list li::before {
+  content: ''; width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px;
+  border-radius: 50%; background: var(--teal-l);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 24 24' fill='none' stroke='%231A7F6E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: center;
+}
+
+/* ── FAQ ── */
+.faq-bg { background: var(--white); border-top: 1px solid var(--line); }
+.faq-inner { max-width: 700px; }
+.faq-list { margin-top: 48px; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-q {
+  padding: 22px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 15px; font-weight: 400; color: var(--ink); cursor: pointer;
+  transition: color .2s; gap: 20px;
+}
+.faq-q:hover { color: var(--teal); }
+.faq-toggle {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--muted); flex-shrink: 0;
+  transition: all .25s;
+}
+.faq-item.open .faq-toggle { transform: rotate(45deg); border-color: var(--teal); color: var(--teal); }
+.faq-a {
+  display: none; padding: 0 0 22px;
+  font-size: 14px; color: var(--muted); line-height: 1.8; font-weight: 300;
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ── CTA ── */
+.cta-wrap {
+  padding: 100px 56px; text-align: center;
+  background: var(--teal);
+}
+.cta-wrap h2 {
+  font-family: 'Fraunces', serif; font-size: 52px; font-weight: 300;
+  color: #fff; letter-spacing: -.03em; line-height: 1.08; margin-bottom: 16px;
+}
+.cta-wrap h2 em { font-style: italic; opacity: .7; }
+.cta-wrap p { font-size: 16px; color: rgba(255,255,255,.6); margin-bottom: 40px; font-weight: 300; }
+.cta-btns { display: flex; gap: 12px; justify-content: center; }
+.cta-btn-white {
+  padding: 14px 34px; border-radius: 99px;
+  background: #fff; color: var(--teal-d);
+  font-size: 14px; font-weight: 500;
+  transition: transform .15s, background .15s;
+}
+.cta-btn-white:hover { transform: translateY(-2px); background: var(--teal-l); }
+.cta-btn-outline {
+  padding: 14px 28px; border-radius: 99px;
+  border: 1.5px solid rgba(255,255,255,.35); color: #fff;
+  font-size: 14px; font-weight: 400;
+  transition: border-color .2s, background .2s;
+}
+.cta-btn-outline:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); padding: 40px 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.foot-brand { display: flex; align-items: center; gap: 10px; }
+.foot-logo {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: linear-gradient(135deg, #2563EB, #0D9488);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.foot-name { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 300; color: #fff; }
+.foot-links { display: flex; gap: 28px; }
+.foot-links a { font-size: 13px; color: rgba(255,255,255,.35); transition: color .2s; }
+.foot-links a:hover { color: rgba(255,255,255,.7); }
+.foot-copy { font-size: 12px; color: rgba(255,255,255,.2); }
+
+/* ── REVEAL ANIMATION ── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: .1s; }
+.reveal-d2 { transition-delay: .2s; }
+.reveal-d3 { transition-delay: .3s; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav { padding: 0 28px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 28px 60px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero h1 { font-size: 44px; }
+  .hero-card-wrap { justify-content: flex-start; }
+  .hero-bg-line { display: none; }
+  .stats-strip { grid-template-columns: 1fr 1fr; }
+  .s-item { padding: 28px 0 28px 28px; border-bottom: 1px solid var(--line); }
+  .s-item:nth-child(2), .s-item:nth-child(4) { border-right: none; }
+  .s-item:nth-child(3), .s-item:nth-child(4) { border-bottom: none; }
+  .section { padding: 64px 28px; }
+  .how-wrap { grid-template-columns: 1fr; }
+  .feat-grid { grid-template-columns: 1fr; }
+  .t-grid { grid-template-columns: 1fr; }
+  .privacy-grid { grid-template-columns: 1fr; padding: 64px 28px; }
+  .faq-bg .section { padding: 64px 28px; }
+  .testi-bg { padding: 64px 28px; }
+  .cta-wrap { padding: 64px 28px; }
+  .cta-wrap h2 { font-size: 36px; }
+  footer { padding: 32px 28px; }
+  .sec-h { font-size: 34px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-mark">⚕️</div>
+    MedVision AI
+  </div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="http://localhost:5173/patient-login" class="nav-signin">Sign in</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-line"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag"><div class="hero-tag-dot"></div>Patient Portal · AI-Powered</div>
+      <h1>Your health,<br/><em>understood</em><br/>clearly.</h1>
+      <p class="hero-sub">AI risk scores, doctor-verified reports, and appointment management — all in one quiet, focused place.</p>
+      <div class="hero-actions">
+        <a href="http://localhost:5173/patient-login" class="btn-main">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Get started free
+        </a>
+        <a href="#how" class="btn-ghost">
+          See how it works
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Health card -->
+    <div class="hero-card-wrap">
+      <div class="hcard">
+        <div class="hcard-top">
+          <div class="hcard-patient">
+            <div class="hcard-av">AK</div>
+            <div>
+              <div class="hcard-name">Aisha Khan</div>
+              <div class="hcard-id">ID #P-0042</div>
+            </div>
+          </div>
+          <span class="hcard-risk">Low Risk</span>
+        </div>
+
+        <div class="hcard-score">
+          <div class="ring-wrap">
+            <svg width="58" height="58" viewBox="0 0 58 58">
+              <circle cx="29" cy="29" r="22" fill="none" stroke="#E5E7EB" stroke-width="5"/>
+              <circle cx="29" cy="29" r="22" fill="none" stroke="#1A7F6E" stroke-width="5"
+                stroke-linecap="round"
+                stroke-dasharray="138"
+                stroke-dashoffset="86"/>
+            </svg>
+            <div class="ring-text">3</div>
+          </div>
+          <div class="hcard-score-info">
+            <div class="hcard-score-label">AI Risk Score</div>
+            <div class="hcard-score-val">3 / 8</div>
+            <div class="hcard-score-sub">Verified by Dr. Sharma</div>
+          </div>
+        </div>
+
+        <div class="hcard-factors">
+          <div class="hcard-f"><div class="hcard-f-name">Fever</div><div class="hcard-f-val">+1 · Mild</div></div>
+          <div class="hcard-f"><div class="hcard-f-name">Cough</div><div class="hcard-f-val">+1 · Present</div></div>
+          <div class="hcard-f"><div class="hcard-f-name">Fatigue</div><div class="hcard-f-val">+0 pts</div></div>
+          <div class="hcard-f"><div class="hcard-f-name">Breathlessness</div><div class="hcard-f-val">+0 pts</div></div>
+        </div>
+
+        <div class="hcard-appt">
+          <div class="hcard-appt-dot"></div>
+          <div>
+            <div class="hcard-appt-title">Next: Dr. Priya Sharma</div>
+            <div class="hcard-appt-time">18 May 2026 · 10:30 AM · General Medicine</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="s-item reveal"><div class="s-num">3<em>/8</em></div><div class="s-label">Avg. patient risk score</div></div>
+  <div class="s-item reveal reveal-d1"><div class="s-num">8</div><div class="s-label">AI endpoints active</div></div>
+  <div class="s-item reveal reveal-d2"><div class="s-num">13</div><div class="s-label">Medical specializations</div></div>
+  <div class="s-item reveal reveal-d3"><div class="s-num"><em>∞</em></div><div class="s-label">Free & open source</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="how">
+  <div class="section">
+    <div class="sec-label">How it works</div>
+    <div class="sec-h">Three steps to <em>clarity</em></div>
+    <p class="sec-sub">No complex setup. Register, and your health data flows automatically from the clinic to your dashboard.</p>
+    <div class="how-wrap reveal">
+      <div class="how-step">
+        <div class="how-n">01</div>
+        <div class="how-title">Create your account</div>
+        <div class="how-desc">Register with your email, set a password, add your date of birth. Your profile is ready in under a minute.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-n">02</div>
+        <div class="how-title">Receive your AI report</div>
+        <div class="how-desc">Once your doctor adds your health record, an AI risk score is calculated and a clinical summary is generated automatically.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-n">03</div>
+        <div class="how-title">Track, book & stay informed</div>
+        <div class="how-desc">Book appointments, view doctor-verified reports, download PDFs, and log daily symptoms — all in one place.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="feat-bg" id="features">
+  <div class="section">
+    <div class="sec-label">Features</div>
+    <div class="sec-h">Everything <em>you need</em></div>
+    <p class="sec-sub">Built for patients. No medical jargon. No clutter. Just what matters.</p>
+    <div class="feat-grid reveal">
+      <div class="feat-cell">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" stroke="var(--teal)"><path d="M12 5v14M5 12h14" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <div class="feat-title">AI risk score & breakdown</div>
+        <div class="feat-desc">See your personal health risk score (0–8) with a full factor breakdown — age, diagnosis, and symptom flags — so you understand exactly why.</div>
+      </div>
+      <div class="feat-cell">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="feat-title">Appointment tracking</div>
+        <div class="feat-desc">All your upcoming and past appointments in one view — doctor, specialization, date, time, and preparation notes — clean and scannable.</div>
+      </div>
+      <div class="feat-cell">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="feat-title">Doctor-verified reports & PDF</div>
+        <div class="feat-desc">Once your doctor verifies your AI report, download it as a PDF — complete with risk score, symptom flags, and clinical notes.</div>
+      </div>
+      <div class="feat-cell">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="feat-title">Daily symptom logging</div>
+        <div class="feat-desc">Log fever, cough, fatigue, and breathlessness daily with a pain level. Your doctor sees this live alongside your health data.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testi-bg">
+  <div class="testi-inner">
+    <div class="sec-label">Patient voices</div>
+    <div class="sec-h">Real people, <em>real results</em></div>
+    <div class="t-grid">
+      <div class="t-card reveal">
+        <div class="t-quote">"</div>
+        <p class="t-text">Knowing my AI risk score made me take my cough seriously before it got worse. Seeing exactly which factors contributed was genuinely reassuring.</p>
+        <div class="t-author">
+          <div class="t-av" style="background:#1A7F6E">RK</div>
+          <div><div class="t-name">Rahul Kumar</div><div class="t-role">Patient · General Medicine</div></div>
+        </div>
+      </div>
+      <div class="t-card reveal reveal-d1">
+        <div class="t-quote">"</div>
+        <p class="t-text">Being able to download my verified report as a PDF and share it with a specialist elsewhere saved so much time. Everything is right there.</p>
+        <div class="t-author">
+          <div class="t-av" style="background:#7C3AED">NP</div>
+          <div><div class="t-name">Neha Patel</div><div class="t-role">Patient · Cardiology</div></div>
+        </div>
+      </div>
+      <div class="t-card reveal reveal-d2">
+        <div class="t-quote">"</div>
+        <p class="t-text">The symptom log is simple and my doctor said it helps them see how my condition changes day to day. Much better than trying to remember everything.</p>
+        <div class="t-author">
+          <div class="t-av" style="background:#F97316">VG</div>
+          <div><div class="t-name">Vikram Gupta</div><div class="t-role">Patient · Pulmonology</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY -->
+<div id="privacy">
+  <div class="privacy-grid">
+    <div class="pv-card reveal">
+      <div class="pv-row"><div class="pv-dot"></div><div class="pv-text">Row Level Security (RLS) — per-user data isolation</div><div class="pv-check">✓</div></div>
+      <div class="pv-row"><div class="pv-dot"></div><div class="pv-text">JWT authentication via Supabase Auth</div><div class="pv-check">✓</div></div>
+      <div class="pv-row"><div class="pv-dot"></div><div class="pv-text">AI risk score is read-only for patients</div><div class="pv-check">✓</div></div>
+      <div class="pv-row"><div class="pv-dot"></div><div class="pv-text">Role-based data isolation — no cross-access</div><div class="pv-check">✓</div></div>
+      <div class="pv-row"><div class="pv-dot"></div><div class="pv-text">No third-party advertising. No data sold.</div><div class="pv-check">✓</div></div>
+    </div>
+    <div class="privacy-content reveal reveal-d1">
+      <div class="sec-label">Privacy & security</div>
+      <div class="sec-h">Your data is <em>yours alone</em></div>
+      <p class="sec-sub" style="margin-bottom:0">Built on Supabase with database-level Row Level Security — no one can accidentally see another patient's data.</p>
+      <ul class="priv-list">
+        <li>You only ever see your own health records, reports, and appointments.</li>
+        <li>Your AI risk score is read-only — only your doctor can change or override it.</li>
+        <li>Sessions use JWT tokens and expire automatically for your safety.</li>
+        <li>Academic project — no ads, no data sold, privacy by design.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-bg" id="faq">
+  <div class="section faq-inner">
+    <div class="sec-label">FAQ</div>
+    <div class="sec-h">Common <em>questions</em></div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>How do I create a patient account?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Go to the Patient Portal at localhost:5173/patient-login and click the Register tab. Fill in your email, create a password, enter your display name and date of birth. Your account is ready immediately.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>When will my AI risk score appear?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Your AI risk score is calculated automatically once a hospital admin or doctor adds your health record — including your diagnosis, age, and symptom flags. Once a doctor verifies the report, it becomes visible in your My Health section.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Can I change my own risk score?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">No — your AI risk score is read-only for patients. Only your assigned doctor can review, verify, or override it. This ensures clinical accuracy and a full audit trail. You can log daily symptoms which inform your doctor's review.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>How do I download my health report?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Go to My Reports in the patient portal. Any report marked as "AI Verified" has a PDF download button. The PDF includes your risk score, symptom breakdown, doctor notes, and appointment history.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Is this system free to use?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Yes — MedVision AI is a 100% open-source academic project from Jamia Hamdard (SEST 2024–26). There is no cost for patients to register and use the portal. Built entirely on open-source technologies with no licensing fees.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>How is my data kept private?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">MedVision AI uses Supabase Row Level Security (RLS) — a database-level policy ensuring every user can only access their own data. Admins, doctors, and patients all have completely separate, isolated data views. Authentication is handled via Supabase Auth with JWT tokens.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <h2>Ready to take control<br/>of <em>your health?</em></h2>
+  <p>Free, private, and takes under a minute to set up.</p>
+  <div class="cta-btns">
+    <a href="http://localhost:5173/patient-login" class="cta-btn-white">Create your patient account</a>
+    <a href="#how" class="cta-btn-outline">Learn more first</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">
+    <div class="foot-logo">⚕️</div>
+    <span class="foot-name">MedVision AI</span>
+  </div>
+  <div class="foot-links">
+    <a href="http://localhost:5173/">Admin Portal</a>
+    <a href="http://localhost:5173/doctor-login">Doctor Portal</a>
+    <a href="http://localhost:5173/patient-login">Patient Portal</a>
+  </div>
+  <span class="foot-copy">Jamia Hamdard · SEST 2024–26 · MCA Final Year</span>
+</footer>
+
+<script>
+function toggleFaq(el) {
+  const item = el.parentElement;
+  document.querySelectorAll('.faq-item.open').forEach(i => { if(i !== item) i.classList.remove('open'); });
+  item.classList.toggle('open');
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
