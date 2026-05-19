@@ -2,16 +2,17 @@
 // ── FIXED: each role redirects to its own login page when not authenticated
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import HomeRedirect from "./pages/HomeRedirect";
 
-import Dashboard        from "./pages/Dashboard";
-import Appointment      from "./pages/Appointment";
-import Patients         from "./pages/Patients";
-import Doctors          from "./pages/Doctors";
-import Reports          from "./pages/Reports";
-import Auth             from "./pages/Auth";
-import DoctorLogin      from "./pages/DoctorLogin";
-import PatientLogin     from "./pages/PatientLogin";
-import DoctorDashboard  from "./pages/DoctorDashboard";
+import Dashboard from "./pages/Dashboard";
+import Appointment from "./pages/Appointment";
+import Patients from "./pages/Patients";
+import Doctors from "./pages/Doctors";
+import Reports from "./pages/Reports";
+import Auth from "./pages/Auth";
+import DoctorLogin from "./pages/DoctorLogin";
+import PatientLogin from "./pages/PatientLogin";
+import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
 
 // ══════════════════════════════════════════════════════════════════
@@ -29,7 +30,7 @@ function Protected({ children, roles, loginPath = "/" }) {
   if (roles && roles.length > 0) {
     const role = user.user_metadata?.role || "admin";
     if (!roles.includes(role)) {
-      if (role === "doctor")  return <Navigate to="/doctor-dashboard" replace />;
+      if (role === "doctor") return <Navigate to="/doctor-dashboard" replace />;
       if (role === "patient") return <Navigate to="/my-health" replace />;
       return <Navigate to="/dashboard" replace />;
     }
@@ -43,7 +44,7 @@ function RoleRedirect() {
   const { user } = useAuth();
   if (!user) return <Navigate to="/" replace />;
   const role = user.user_metadata?.role || "admin";
-  if (role === "doctor")  return <Navigate to="/doctor-dashboard" replace />;
+  if (role === "doctor") return <Navigate to="/doctor-dashboard" replace />;
   if (role === "patient") return <Navigate to="/my-health" replace />;
   return <Navigate to="/dashboard" replace />;
 }
@@ -62,7 +63,7 @@ export default function AppWrapper() {
           width: 36, height: 36, borderRadius: "50%",
           border: "3px solid #DDE3F0", borderTopColor: "#2563EB",
           animation: "spin .7s linear infinite",
-        }}/>
+        }} />
         <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
         <p style={{ color: "#5A6A8A", fontSize: 14 }}>Loading MedVision AI…</p>
       </div>
@@ -74,10 +75,12 @@ export default function AppWrapper() {
 
       {/* ── PUBLIC LOGIN PAGES ─────────────────────────────────── */}
 
-      <Route path="/"
+     
+     <Route path="/" element={<HomeRedirect />} />
+
+      <Route path="/admin-login"
         element={user ? <RoleRedirect /> : <Auth />}
       />
-
       <Route path="/doctor-login"
         element={user ? <RoleRedirect /> : <DoctorLogin />}
       />
@@ -92,31 +95,31 @@ export default function AppWrapper() {
         <Protected roles={["admin"]} loginPath="/">
           <Dashboard />
         </Protected>
-      }/>
+      } />
 
       <Route path="/patients" element={
         <Protected roles={["admin"]} loginPath="/">
           <Patients />
         </Protected>
-      }/>
+      } />
 
       <Route path="/doctors" element={
         <Protected roles={["admin"]} loginPath="/">
           <Doctors />
         </Protected>
-      }/>
+      } />
 
       <Route path="/appointment" element={
         <Protected roles={["admin"]} loginPath="/">
           <Appointment />
         </Protected>
-      }/>
+      } />
 
       <Route path="/reports" element={
         <Protected roles={["admin"]} loginPath="/">
           <Reports />
         </Protected>
-      }/>
+      } />
 
       {/* ── DOCTOR ROUTES ───────────────────────────────────────── */}
 
@@ -124,7 +127,7 @@ export default function AppWrapper() {
         <Protected roles={["doctor", "admin"]} loginPath="/doctor-login">
           <DoctorDashboard />
         </Protected>
-      }/>
+      } />
 
       {/* ── PATIENT ROUTES ──────────────────────────────────────── */}
       {/* KEY FIX: loginPath="/patient-login" instead of "/" */}
@@ -133,7 +136,7 @@ export default function AppWrapper() {
         <Protected roles={["patient", "admin"]} loginPath="/patient-login">
           <PatientDashboard />
         </Protected>
-      }/>
+      } />
 
       {/* ── FALLBACK ────────────────────────────────────────────── */}
       <Route path="*" element={<Navigate to="/" replace />} />
