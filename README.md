@@ -73,8 +73,16 @@ cd medvision-ai-backend
 https://github.com/user-attachments/assets/e15a3f43-bcda-4503-ac21-3989abd6bc2b
 
 
-
+2. Patients Record with Risk Score 
 https://github.com/user-attachments/assets/19e12ebe-ce85-4fa4-b42a-7bf4cebf2986
+
+3. Doctor Recommendation
+
+
+
+https://github.com/user-attachments/assets/5f2cbb9b-d407-4fae-a3d5-729679b4a33b
+
+
 
 
 
