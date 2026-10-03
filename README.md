@@ -67,9 +67,16 @@ cd medvision-ai-backend
 
 > A Supabase project (PostgreSQL) is required. Add your Supabase URL and API key to the appropriate config files before running locally.
 
-## Screenshots
+## Screen Record
+1. Admin Dashboard with Data Analytics
 
-*(Add screenshots here — e.g. patient risk report, admin dashboard, XAI factor breakdown, voice booking assistant. Pulling 3–4 images from the live demo or your dissertation figures will make this section much stronger.)*
+https://github.com/user-attachments/assets/e15a3f43-bcda-4503-ac21-3989abd6bc2b
+
+
+
+
+
+
 
 ## Author
 
