@@ -1,4 +1,6 @@
+
 # MedVision AI
+https://github.com/user-attachments/assets/0e1da7b5-e71b-4a8d-b5d6-2d827370697e
 
 **An AI-Integrated Healthcare Intelligence Platform for Predictive and Intelligent Diagnosis**
 
@@ -73,7 +75,7 @@ cd medvision-ai-backend
 
 **Heena Shaikh**
 MCA, Jamia Hamdard University
-[GitHub](https://github.com/HeenaShaikh09) · [LinkedIn](https://linkedin.com/in/heena-shaikh-096810259)
+[GitHub](https://github.com/HeenaShaikh09) · [LinkedIn](https://www.linkedin.com/in/heenashaikh077)
 
 ## License
 
